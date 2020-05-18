@@ -398,7 +398,7 @@ void Clasico::reanudarNave (int* objects, NaveClasico* nave)
 	nave->setCorazones(objects[3]);
 }
 
-Asteroide* Clasico:: reanudarAsteroides(int* objects, int* num_ast)
+Asteroide* Clasico::reanudarAsteroides(int* objects, int* num_ast)
 {
 	*num_ast = objects[4]/2;
 	Asteroide* asteroides = new Asteroide[*num_ast];
@@ -429,9 +429,9 @@ Bala* Clasico::reanudarBalas(int* objects, int* num_balas)
 void Clasico::reanudarParametros(int* objects, float* segundos, float* tiempo, int* disparosAcertados, int* disparosConsumidos)
 {
 	int aux = objects[5+objects[4]] + 5+objects[4] +1;
-
-	*segundos = objects[aux];
-	*tiempo = objects[aux+1];
+	
+	*segundos = (float)objects[aux];
+	*tiempo = (float)objects[aux+1];
 	*disparosAcertados = objects[aux+2];
 	*disparosConsumidos = objects[aux+3];
 }
@@ -514,7 +514,7 @@ void Clasico::guardarPartida(Usuario* usuarios, int player, NaveClasico* nave, A
 	objects[2] = nave->getVidas();
 	objects[3] = nave->getCorazones();
 
-	objects[4] = (*num_ast)*2;
+	objects[4] = (*num_ast)*3;
 
 	contador = 5;
 	if(*num_ast > 0)
@@ -582,8 +582,10 @@ void Clasico::jugar(Usuario* usuarios, int player)
     int* disparosConsumidos = new int();
     int* disparosAcertados = new int();
 
-    float* segundos = 0;
-    float* tiempo = 0;
+    float* segundos = new float();
+    *segundos = 0;
+    float* tiempo = new float();
+    *tiempo = 0;
 
     int choqueAsteroide = 0;
     int choqueBala = 0;
@@ -599,7 +601,7 @@ void Clasico::jugar(Usuario* usuarios, int player)
     		delete[] asteroides;
     		asteroides = reanudarAsteroides(usuarios[player].getObjects(), num_ast);
     		cout << "yeah";
-    		delete[] balas;
+    	
     		balas = reanudarBalas(usuarios[player].getObjects(), num_balas);
     		cout << "yeah";
     		reanudarParametros(usuarios[player].getObjects(), segundos, tiempo, disparosAcertados, disparosConsumidos);

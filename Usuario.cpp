@@ -115,8 +115,9 @@ Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 		
 		if(usuarios[contador].guardado==1)
 		{
+			usuarios[contador].setObjects();
 			int i = 5;
-			while(objects[i] != -1)
+			while(atoi(items[i]) != -1)
 			{
 				usuarios[contador].objects[i-5] = atoi(items[i]);
 				i++;
@@ -186,6 +187,7 @@ void Usuario::escribirUsuarios(Usuario *usuarios, int size)
 		
 		if(usuarios[i].getGuardado()==1)
 		{
+			fprintf(file, ";1");
 			int i=0;
 			while(objects[i] != -1)
 			{
