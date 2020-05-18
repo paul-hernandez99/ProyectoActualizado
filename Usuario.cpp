@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-int Usuario::MAX = 300;
+int Usuario::MAX = 350;
 
 Usuario::Usuario()
 {
@@ -59,7 +59,7 @@ int* Usuario::getObjects() const
 }
 void Usuario::setObjects()
 {
-	this->objects = new int[432];
+	this->objects = new int[170];
 }
 
 Usuario& Usuario::operator=(const Usuario &a)
@@ -80,7 +80,7 @@ Usuario& Usuario::operator=(const Usuario &a)
 Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 {
 	char* linea = new char[MAX];
-	char** items = new char*[150];
+	char** items = new char*[170];
 
 	fgets(linea, MAX, file);
 	sscanf(linea, "%d", size);
@@ -115,34 +115,50 @@ Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 		
 		if(usuarios[contador].guardado==1)
 		{
+			int i = 5;
+			while(objects[i] != -1)
+			{
+				usuarios[contador].objects[i-5] = atoi(items[i]);
+				i++;
+			}
+			/*
 			usuarios[contador].setObjects();
 
 			usuarios[contador].objects[0]=atoi(items[5]);
 			usuarios[contador].objects[1]=atoi(items[6]);
+			usuarios[contador].objects[2]=atoi(items[7]);
+			usuarios[contador].objects[3]=atoi(items[8]);
 
-			usuarios[contador].objects[2]=atoi(items[7]); //Metemos num asteroides
+			usuarios[contador].objects[4]=atoi(items[9]); //Metemos num asteroides
 
-			int j = usuarios[contador].objects[2];
-			int aux = 3;
+			int j = usuarios[contador].objects[4];
+			int aux = 5;
 
-			for(int i=8;i<8+j;i++)
+			for(int i=10;i<10+j;i++)
 			{
 				usuarios[contador].objects[aux] = atoi(items[i]);
 				aux++;
 			}
 
-			usuarios[contador].objects[aux]=atoi(items[8+j]); //Metemos num balas
+			usuarios[contador].objects[aux]=atoi(items[10+j]); //Metemos num balas
 			aux++;
 			int k=usuarios[contador].objects[aux];
 
-			for(int i=8+j+1;i<8+j+1+k;i++)
+			for(int i=10+j+1;i<10+j+1+k;i++)
 			{
 				usuarios[contador].objects[aux] = atoi(items[i]);
 				aux++;
 			}
+
+			for(int i=10+j+1+k; i <10+j+1+k+4; i++)
+			{
+				usuarios[contador].objects[aux] = atoi(items[i]);
+				aux++;
+			*/
 		}
 
 		contador++;
+
 	}
 	delete [] linea;
 	delete [] items;
@@ -170,20 +186,13 @@ void Usuario::escribirUsuarios(Usuario *usuarios, int size)
 		
 		if(usuarios[i].getGuardado()==1)
 		{
-			fprintf(file, ";1;%d;%d;%d", objects[0], objects[1], objects[2]);
-
-			for(int i=0; i<objects[2]; i++)
+			int i=0;
+			while(objects[i] != -1)
 			{
-				fprintf(file, ";%d", objects[i+3]);
+				fprintf(file, ";%d", objects[i]);
+				i++;
 			}
-			
-			fprintf(file, ";%d", objects[3+objects[2]]);
-
-			for(int i=0; i<objects[3+objects[2]]; i++)
-			{
-				fprintf(file, ";%d", objects[i+4+objects[2]]);
-			}
-			fprintf(file, "\n");
+			fprintf(file, ";-1\n");
 		}
 		else
 			fprintf(file, ";0\n");

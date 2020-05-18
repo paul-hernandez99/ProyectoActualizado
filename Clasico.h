@@ -28,6 +28,11 @@ public:
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide);
 	virtual void pintarAsteroideHorizontal(WINDOW* ventana, Asteroide* asteroide);
 	virtual int choque(WINDOW* ventana, Nave* nave, Asteroide* asteroide);
+	void reanudarNave (int* objects, NaveClasico* nave);
+	Asteroide* reanudarAsteroides(int* objects, int* num_ast);
+	Bala* reanudarBalas(int* objects, int* num_balas);
+	void reanudarParametros(int* objects, float* segundos, float* tiempo, int* disparosAcertados, int* disparosConsumidos);
+	void guardarPartida(Usuario* usuarios, int player, NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int segundos, int tiempo, int* disparosAcertados, int* disparosConsumidos);
 	Bala* crearBalas (Bala* balas, NaveClasico* nave, int* num_balas, int* disparosConsumidos);
 	void mostrarPuntuacion (Usuario* usuarios, int player, float tiempo, int* disparosAcertados);
 	void pintarChoqueAsteroideBala (WINDOW* ventana, Bala* balas, int j, int* num_balas);
