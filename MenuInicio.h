@@ -10,7 +10,6 @@ class MenuInicio : public Menu
 		MenuInicio(){}
 		virtual ~MenuInicio(){}
 		int menuInicio();
-		virtual void desplegarMenu();
 		void liberarMemoriaMenuInicio(const char** opciones, WINDOW* inicio);
 };
 

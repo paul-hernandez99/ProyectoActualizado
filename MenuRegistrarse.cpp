@@ -151,10 +151,7 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
         menMain.menuPrincipal();
     }
 }
-void MenuRegistrarse::desplegarMenu()
-{
 
-}
 void MenuRegistrarse::liberarMemoriaMenuRegistrarse(WINDOW* registro, Usuario* usuariosActualizados, int size, char* userIntroduced, char* passIntroduced, char* passConfiIntroduced, float* initializeNull)
 {
     delete [] usuariosActualizados;

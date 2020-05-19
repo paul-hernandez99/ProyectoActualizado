@@ -9,6 +9,8 @@
 #include "MenuPlayer.h"
 #include "Clasico.h"
 #include "Supervivencia.h"
+#include "RankingSupervivencia.h"
+#include "RankingClasico.h"
 
 class MenuMain : public Menu
 {
@@ -16,9 +18,7 @@ class MenuMain : public Menu
 		MenuMain();
 		virtual ~MenuMain(){}
 		void menuPrincipal ();
-		void liberarMemoriaMenuMain (int *size, Usuario* arrayUsers);
-		virtual void desplegarMenu();
-		
+		void liberarMemoriaMenuMain (int *size, Usuario* arrayUsers);		
 };
 
 #endif

@@ -115,10 +115,7 @@ int MenuIniciarSesion::menuIniciarSesion(Usuario *usuarios, int size)
         menuIniciarSesion(usuarios, size); 
     }
 }
-void MenuIniciarSesion::desplegarMenu()
-{
-    
-}
+
 void MenuIniciarSesion::liberarMemoriaMenuInicioSesion(char* userIntroduced, char* passIntroduced, WINDOW* inicioSesion)
 {
     delete [] userIntroduced;

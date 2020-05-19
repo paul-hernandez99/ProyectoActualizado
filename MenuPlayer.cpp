@@ -67,10 +67,6 @@ int MenuPlayer::menuPlayer()
 
     return seleccion;
 }
-void MenuPlayer::desplegarMenu()
-{
-	
-}
 void MenuPlayer::liberarMemoriaMenuPlayer(WINDOW* player, const char** opciones)
 {
 	for (int i=0; i<5; i++)

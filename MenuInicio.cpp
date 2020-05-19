@@ -67,10 +67,6 @@ int MenuInicio::menuInicio()
    
     return seleccion;
 }
-void MenuInicio::desplegarMenu()
-{
-
-}
 void MenuInicio::liberarMemoriaMenuInicio(const char** opciones, WINDOW* inicio)
 {
     for (int i=0; i<3; i++)

@@ -24,10 +24,6 @@ using namespace std;
     }
 #endif
 
-void MenuMain::desplegarMenu()
-{
-
-}
 
 MenuMain::MenuMain()
 {
@@ -84,11 +80,17 @@ void MenuMain::menuPrincipal()
                             break;
                         }
                         case 2:
-                            //rankingClasico(usuarios, *size);
+                        {
+                            RankingClasico rc;
+                            rc.mostrarRanking(usuarios, *size);
                             break;
+                        }
                         case 3:
-                            //rankingSupervivencia(usuarios, *size);
+                        {
+                            RankingSupervivencia rs;
+                            rs.mostrarRanking(usuarios, *size);
                             break;
+                        }
                         default:
                             break;
                     

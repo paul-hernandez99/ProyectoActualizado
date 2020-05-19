@@ -9,7 +9,6 @@ class MenuPlayer : public Menu
 		MenuPlayer(){}
 		virtual ~MenuPlayer(){}
 		int menuPlayer();
-		virtual void desplegarMenu();
 		void liberarMemoriaMenuPlayer(WINDOW* player, const char** opciones);
 };
 
