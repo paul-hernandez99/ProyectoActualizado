@@ -17,7 +17,7 @@ public:
 	Juego();
 	virtual ~Juego(){}
 	virtual void pintarAsteroides(WINDOW* ventana, Asteroide* asteroides, int* num_ast) = 0;
-	virtual Asteroide* subirNivel(Asteroide* asteroides, int* num_ast) = 0;
+	virtual void subirNivel(Asteroide* asteroides, int* num_ast) = 0;
 	virtual void mostrarGameOver() = 0;
 	virtual int menuSalida() = 0;
 	virtual WINDOW* mostrarInfo() = 0;

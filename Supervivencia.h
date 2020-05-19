@@ -16,7 +16,7 @@ public:
 	Supervivencia();
 	virtual ~Supervivencia(){}
 	virtual void pintarAsteroides(WINDOW* ventana, Asteroide* asteroides, int* num_ast);
-	virtual Asteroide* subirNivel(Asteroide* asteroides, int* num_ast);
+	virtual void subirNivel(Asteroide* asteroides, int* num_ast);
 	virtual void mostrarGameOver();
 	virtual int menuSalida();
 	virtual WINDOW* mostrarInfo();

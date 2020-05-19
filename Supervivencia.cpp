@@ -30,10 +30,9 @@ void Supervivencia::pintarAsteroides(WINDOW* ventana, Asteroide* asteroides, int
     		pintarAsteroideHorizontal(ventana, &asteroides[i]);
     }
 }
-//ESTA MAL! Falta por hacerlo dinamico
-Asteroide* Supervivencia::subirNivel(Asteroide* asteroides, int* num_ast)
+
+void Supervivencia::subirNivel(Asteroide* asteroides, int* num_ast)
 {
-	Asteroide* aux;
 	if(*num_ast < MAX_AST)
 	{
 		asteroides[*num_ast].setX(this->getIzquierda());
@@ -43,7 +42,6 @@ Asteroide* Supervivencia::subirNivel(Asteroide* asteroides, int* num_ast)
 
 		mostrarNivel(num_ast);
 	}
-	return aux;
 }
 
 void Supervivencia::mostrarGameOver()
