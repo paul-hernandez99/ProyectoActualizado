@@ -248,18 +248,20 @@ void Supervivencia::pintarVidasExtra(WINDOW* ventana, VidaExtra* vidasExtra, int
 {
 	for(int i=0; i<*num_vidasExtra; i++)
 	{
-		mvwprintw(ventana, vidasExtra[i].getY(), vidasExtra[i].getX(), "X");
+		if(vidasExtra[i].getX() > 0)
+			mvwprintw(ventana, vidasExtra[i].getY(), vidasExtra[i].getX(), "X");
 	}
 }
-int Supervivencia::choqueVidasExtra(WINDOW* ventana, NaveSupervivencia* nave, VidaExtra* vidasExtra, int* num_vidasExtra)
+int Supervivencia::choqueVidasExtra(WINDOW* ventana, NaveSupervivencia* nave, VidaExtra* vidasExtra, int* num_vidasExtra, int* vidasExtraConsumidas)
 {
 	for(int i=0; i<*num_vidasExtra; i++)
 	{
-		if((vidasExtra[i].getX() >= nave->getX()) && (vidasExtra[i].getX() <= nave->getX()+3) && (vidasExtra[i].getY() >= nave->getY()-1) && (vidasExtra[i].getY() <= nave->getY()))
+		if(vidasExtra[i].getX() > 0 && ((vidasExtra[i].getX() >= nave->getX()) && (vidasExtra[i].getX() <= nave->getX()+3) && (vidasExtra[i].getY() >= nave->getY()-1) && (vidasExtra[i].getY() <= nave->getY())))
 		{
 			nave->setVidas(nave->getVidas()+1);
 			vidasExtra[i].setX(-1);
 			vidasExtra[i].setY(-1);
+			(*vidasExtraConsumidas)++;
 			return 1;
 		}
 	}
@@ -350,6 +352,84 @@ void Supervivencia::guardarPuntuacion(Usuario* usuarios, int player, int* num_as
 		usuarios[player].setPuntuacionSupervivencia(*num_ast);
 }
 
+void Supervivencia::reanudarPartida(int* objects, NaveSupervivencia* nave, Asteroide* asteroides, int*num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, float* segundos)
+{
+	nave->setX(objects[0]);
+	nave->setY(objects[1]);
+	nave->setVidas(objects[2]);
+
+	*num_ast = objects[3]/3;
+	
+	int contador = 4;
+    for(int i=0; i<*num_ast;i++)
+    {
+    	asteroides[i].setX(objects[contador]);
+    	asteroides[i].setY(objects[contador+1]);
+    	asteroides[i].setTipo(objects[contador+2]);
+    	contador += 3;
+    }
+
+    *vidasExtraConsumidas = objects[contador];
+    contador++;
+    *num_vidasExtra = objects[contador];
+    contador++;
+
+    for(int i=*vidasExtraConsumidas; i<*num_vidasExtra; i++)
+    {
+    	vidasExtra[i].setX(objects[contador]);
+    	vidasExtra[i].setY(objects[contador+1]);
+    	contador += 2;
+    }
+
+	*segundos = (float)objects[contador];
+
+	delete[] objects;
+}
+
+void Supervivencia::guardarPartida(Usuario* usuarios, int player, NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, int segundos)
+{
+	usuarios[player].setGuardadoS(1);
+	usuarios[player].setObjectsS();
+	int* objects = usuarios[player].getObjectsS();
+	int contador = 0;
+
+	objects[0] = nave->getX();
+	objects[1] = nave->getY();
+	objects[2] = nave->getVidas();
+
+	objects[3] = (*num_ast)*3;
+
+	contador = 4;
+
+	for(int i=0; i<*num_ast; i++)
+	{
+		objects[contador] = asteroides[i].getX();
+		objects[contador+1] = asteroides[i].getY();
+		objects[contador+2] = asteroides[i].getTipo();
+		contador+=3;
+	}
+
+	objects[contador] = *vidasExtraConsumidas;
+	contador++;
+	objects[contador] = *num_vidasExtra;
+	contador++;
+
+	for(int i=0; i<*num_vidasExtra; i++)
+	{
+		if(vidasExtra[i].getX() >= 0)	
+		{
+			objects[contador] = vidasExtra[i].getX();
+			objects[contador+1] = vidasExtra[i].getY();
+			contador+=2;
+		}
+	}
+
+	objects[contador] = segundos;
+	contador++;
+	objects[contador] = -1;
+	contador++;
+}
+
 void Supervivencia::jugar(Usuario* usuarios, int player)
 {
 	initscr();
@@ -375,28 +455,39 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 	VidaExtra* vidasExtra = new VidaExtra[MAX_EXTRA];
 	int* num_ast = new int;
 	int* num_vidasExtra = new int;
+	int* vidasExtraConsumidas = new int();
+	*vidasExtraConsumidas = 0;
 
-    float segundos = 0;
+    float* segundos = new float();
+    *segundos = 0;
     int choque_asteroide = 0;
     int choque_vidaExtra = 0;
     int tecla;
 
     while(1)
     {
-    	inicializarParametrosS(asteroides, nave, num_ast, vidasExtra, num_vidasExtra);
-   		mostrarNivel(num_ast);
+    	if(usuarios[player].getGuardadoS() == 1)
+    	{
+    		reanudarPartida(usuarios[player].getObjectsS(), nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, segundos);
+    		usuarios[player].setGuardadoS(0);
+    	}
+    	else
+    	{
+	    	inicializarParametrosS(asteroides, nave, num_ast, vidasExtra, num_vidasExtra);
+	   		mostrarNivel(num_ast);
+	   	}
    		
 	    while(1)
 	    {
 	        actualizarS(ventana, nave);
-	        if(segundos > 15)
+	        if(*segundos > 15)
 	        {
 	        	subirNivel(asteroides, num_ast);
 	        	if(*num_ast == 5 || *num_ast == 8 || *num_ast == 10 || *num_ast == 13) nuevaVidaExtra(vidasExtra, num_vidasExtra);
-	        	segundos = 0;
+	        	*segundos = 0;
 	        }
 
-	        if(choqueVidasExtra(ventana, nave, vidasExtra, num_vidasExtra)) choque_vidaExtra = 1;
+	        if(choqueVidasExtra(ventana, nave, vidasExtra, num_vidasExtra, vidasExtraConsumidas)) choque_vidaExtra = 1;
 	        pintarVidasExtra(ventana, vidasExtra, num_vidasExtra);
 
 	        for(int i=0; i<*num_ast; i++)
@@ -423,21 +514,27 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 			}
 			if(choque_vidaExtra) mostrarVidaExtra();
 
-	        if(nave->getVidas() == 0)
-	        {
-	        	guardarPuntuacion(usuarios, player, num_ast);
-	        	mostrarGameOver();
-	        	choque_asteroide = 0;
-	        	choque_vidaExtra = 0;
-	        	segundos = 0;
-	        	break;
-	        }	
-
 	        tecla = wgetch(ventana);
 	        movimientosJugadorS(tecla, nave);
 
+	        if(nave->getVidas() == 0 || tecla==115 || tecla==103)
+	        {
+	        	if(tecla == 103)
+        		{
+        			//Mostrar etiqueta de Guardar partida
+        			guardarPartida(usuarios, player, nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, *segundos);
+        		}
+        		if(nave->getVidas() == 0)
+        			mostrarGameOver();
+	        	guardarPuntuacion(usuarios, player, num_ast);
+	        	choque_asteroide = 0;
+	        	choque_vidaExtra = 0;
+	        	*segundos = 0;
+	        	break;
+	        }	
+
 	        sleepS(35);
-	        segundos +=0.035;
+	        *segundos +=0.035;
 	        choque_asteroide = 0;
 	        choque_vidaExtra = 0;
 	    }

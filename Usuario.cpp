@@ -6,18 +6,20 @@
 #include <iostream>
 using namespace std;
 
-int Usuario::MAX = 350;
+int Usuario::MAX = 500;
 
 Usuario::Usuario()
 {
-	this->guardado=0;
+	this->guardadoS = 0;
+	this->guardadoC = 0;
 }
 Usuario::~Usuario()
 {
 	delete [] nickname;
 	delete [] contrasenya;
 	delete [] puntuaciones;
-	delete[] objects;
+	delete[] objectsS;
+	delete[] objectsC;
 	
 }
 void Usuario::setNickname (char* n) 
@@ -47,19 +49,43 @@ void Usuario::setPuntuacionSupervivencia (float f)
 	this->puntuaciones[1] = f;
 }
 
-
-void Usuario::setGuardado (int n)
+void Usuario::setGuardadoS(int n)
 {
-	this->guardado = n;
+	this->guardadoS = n;
 }
 
-int* Usuario::getObjects() const
+int Usuario::getGuardadoS() const
 {
-	return this->objects;
+	return this->guardadoS;
 }
-void Usuario::setObjects()
+
+void Usuario::setGuardadoC(int n)
 {
-	this->objects = new int[170];
+	this->guardadoC = n;
+}
+
+int Usuario::getGuardadoC() const
+{
+	return this->guardadoC;
+}
+
+int* Usuario::getObjectsS() const
+{
+	return this->objectsS;
+}
+
+void Usuario::setObjectsS()
+{
+	this->objectsS = new int[70];
+}
+
+int* Usuario::getObjectsC() const
+{
+	return this->objectsC;
+}
+void Usuario::setObjectsC()
+{
+	this->objectsC = new int[170];
 }
 
 Usuario& Usuario::operator=(const Usuario &a)
@@ -80,7 +106,7 @@ Usuario& Usuario::operator=(const Usuario &a)
 Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 {
 	char* linea = new char[MAX];
-	char** items = new char*[170];
+	char** items = new char*[240];
 
 	fgets(linea, MAX, file);
 	sscanf(linea, "%d", size);
@@ -109,23 +135,40 @@ Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 		usuarios[contador].puntuaciones[0] = strtof(items[2], NULL);
 		usuarios[contador].puntuaciones[1] = strtof(items[3], NULL);
 
-		int a = atoi(items[4]);
+		int j = 4;
 
-		usuarios[contador].guardado = atoi(items[4]);
+		usuarios[contador].guardadoC = atoi(items[j]);
+		j++;
 		
-		if(usuarios[contador].guardado==1)
+		if(usuarios[contador].guardadoC==1)
 		{
-			usuarios[contador].setObjects();
-			int i = 5;
-			while(atoi(items[i]) != -1)
+			usuarios[contador].setObjectsC();
+			while(atoi(items[j]) != -1)
 			{
-				usuarios[contador].objects[i-5] = atoi(items[i]);
-				i++;
+				usuarios[contador].objectsC[j-5] = atoi(items[j]);
+				j++;
 			}
+			usuarios[contador].objectsC[j-5] = atoi(items[j]);
+			j++;
+		}
+
+		usuarios[contador].guardadoS = atoi(items[j]);
+		j++;
+
+		if(usuarios[contador].guardadoS==1)
+		{
+			usuarios[contador].setObjectsS();
+			int k = 0;
+			while(atoi(items[j]) != -1)
+			{
+				usuarios[contador].objectsS[k] = atoi(items[j]);
+				j++;
+				k++;
+			}
+			usuarios[contador].objectsS[k] = atoi(items[j]);
 		}
 
 		contador++;
-
 	}
 	delete [] linea;
 	delete [] items;
@@ -148,11 +191,25 @@ void Usuario::escribirUsuarios(Usuario *usuarios, int size)
 	for (int i=0; i<size; i++)
 	{
 		fprintf(file, "%s;%s;%0.2f;%0.2f", usuarios[i].nickname, usuarios[i].contrasenya, usuarios[i].puntuaciones[0], usuarios[i].puntuaciones[1]);
-
-		int* objects = usuarios[i].getObjects();
 		
-		if(usuarios[i].getGuardado()==1)
+		if(usuarios[i].getGuardadoC()==1)
 		{
+			int* objects = usuarios[i].getObjectsC();
+			fprintf(file, ";1");
+			int i=0;
+			while(objects[i] != -1)
+			{
+				fprintf(file, ";%d", objects[i]);
+				i++;
+			}
+			fprintf(file, ";-1");
+		}
+		else
+			fprintf(file, ";0");
+
+		if(usuarios[i].getGuardadoS()==1)
+		{
+			int* objects = usuarios[i].getObjectsS();
 			fprintf(file, ";1");
 			int i=0;
 			while(objects[i] != -1)
@@ -164,6 +221,7 @@ void Usuario::escribirUsuarios(Usuario *usuarios, int size)
 		}
 		else
 			fprintf(file, ";0\n");
+
 	}
 
 	fclose(file);

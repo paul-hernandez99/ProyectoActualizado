@@ -28,11 +28,13 @@ public:
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide);
 	virtual void pintarAsteroideHorizontal(WINDOW* ventana, Asteroide* asteroide);
 	virtual int choque(WINDOW* ventana, Nave* nave, Asteroide* asteroide);
+	void reanudarPartida(int* objets, NaveSupervivencia* nave, Asteroide* asteroide, int*num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, float* segundos);
+	void guardarPartida(Usuario* usuarios, int player, NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, int segundos);
 	void mostrarNivel(int* num_ast);
 	void mostrarVidaExtra();
 	void nuevaVidaExtra(VidaExtra* vidasExtra, int* num_vidasExtra);
 	void pintarVidasExtra(WINDOW* ventana, VidaExtra* vidasExtra, int* num_vidasExtra);
-	int choqueVidasExtra(WINDOW* ventana, NaveSupervivencia* nave, VidaExtra* vidasExtra, int* num_vidasExtra);
+	int choqueVidasExtra(WINDOW* ventana, NaveSupervivencia* nave, VidaExtra* vidasExtra, int* num_vidasExtra, int* vidasExtraConsumidas);
 	void actualizarS(WINDOW* ventana, NaveSupervivencia* nave);
 	void liberarMemoriaS(NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra, WINDOW* ventana);
 	void inicializarParametrosS(Asteroide* asteroides,NaveSupervivencia* nave, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra);

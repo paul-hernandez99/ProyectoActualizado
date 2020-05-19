@@ -445,9 +445,9 @@ void Clasico::movimientosJugadorC(int tecla, NaveClasico* nave, Bala* balas, int
 
 void Clasico::guardarPartida(Usuario* usuarios, int player, NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int segundos, int tiempo, int* disparosAcertados, int* disparosConsumidos)
 {
-	usuarios[player].setGuardado(1);
-	usuarios[player].setObjects();
-	int* objects = usuarios[player].getObjects();
+	usuarios[player].setGuardadoC(1);
+	usuarios[player].setObjectsC();
+	int* objects = usuarios[player].getObjectsC();
 	int contador = 0;
 
 	objects[0] = nave->getX();
@@ -534,10 +534,10 @@ void Clasico::jugar(Usuario* usuarios, int player)
 
     while(1)
     {
-    	if(usuarios[player].getGuardado())
+    	if(usuarios[player].getGuardadoC())
     	{
-    		reanudarPartida(usuarios[player].getObjects(), nave, asteroides, num_ast, balas, num_balas, disparosConsumidos, segundos, tiempo, disparosAcertados);
-    		usuarios[player].setGuardado(0);
+    		reanudarPartida(usuarios[player].getObjectsC(), nave, asteroides, num_ast, balas, num_balas, disparosConsumidos, segundos, tiempo, disparosAcertados);
+    		usuarios[player].setGuardadoC(0);
     	}
 	    else
 	    	 inicializarParametrosC(nave, asteroides, num_ast, num_balas, disparosAcertados, disparosConsumidos);
