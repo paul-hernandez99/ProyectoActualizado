@@ -370,6 +370,8 @@ void Clasico::reanudarPartida(int* objects, NaveClasico* nave, Asteroide* astero
 	*segundos = (float)objects[contador];
 	*tiempo = (float)objects[contador+1];
 	*disparosAcertados = objects[contador+2];
+
+	delete[] objects;
 }
 
 void Clasico::liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, WINDOW* ventana)
@@ -533,7 +535,10 @@ void Clasico::jugar(Usuario* usuarios, int player)
     while(1)
     {
     	if(usuarios[player].getGuardado())
+    	{
     		reanudarPartida(usuarios[player].getObjects(), nave, asteroides, num_ast, balas, num_balas, disparosConsumidos, segundos, tiempo, disparosAcertados);
+    		usuarios[player].setGuardado(0);
+    	}
 	    else
 	    	 inicializarParametrosC(nave, asteroides, num_ast, num_balas, disparosAcertados, disparosConsumidos);
 

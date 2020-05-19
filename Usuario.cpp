@@ -122,40 +122,6 @@ Usuario* Usuario::leerUsuarios(FILE *file, int* size)
 				usuarios[contador].objects[i-5] = atoi(items[i]);
 				i++;
 			}
-			/*
-			usuarios[contador].setObjects();
-
-			usuarios[contador].objects[0]=atoi(items[5]);
-			usuarios[contador].objects[1]=atoi(items[6]);
-			usuarios[contador].objects[2]=atoi(items[7]);
-			usuarios[contador].objects[3]=atoi(items[8]);
-
-			usuarios[contador].objects[4]=atoi(items[9]); //Metemos num asteroides
-
-			int j = usuarios[contador].objects[4];
-			int aux = 5;
-
-			for(int i=10;i<10+j;i++)
-			{
-				usuarios[contador].objects[aux] = atoi(items[i]);
-				aux++;
-			}
-
-			usuarios[contador].objects[aux]=atoi(items[10+j]); //Metemos num balas
-			aux++;
-			int k=usuarios[contador].objects[aux];
-
-			for(int i=10+j+1;i<10+j+1+k;i++)
-			{
-				usuarios[contador].objects[aux] = atoi(items[i]);
-				aux++;
-			}
-
-			for(int i=10+j+1+k; i <10+j+1+k+4; i++)
-			{
-				usuarios[contador].objects[aux] = atoi(items[i]);
-				aux++;
-			*/
 		}
 
 		contador++;
