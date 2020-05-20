@@ -626,6 +626,7 @@ void Clasico::jugar(Usuario* usuarios, int player)
         	{	
         		if(tecla == 112)
         		{
+        			int aux = 0;
         			tecla = 0;
         			WINDOW* partidaPausada = this->mostrarPartidaPausada();
         			
@@ -633,11 +634,47 @@ void Clasico::jugar(Usuario* usuarios, int player)
         			{
         				tecla = wgetch(ventana);
         				if(tecla==112)
+        				{
+        					wclear(partidaPausada);
+        					wrefresh(partidaPausada);
+							delwin(partidaPausada);
         					break;
+        				}
+        				if(tecla == 103)
+        				{
+        					aux = 1;
+        					break;
+        				}
+        				if(tecla == 115)
+        				{
+        					aux = 2;
+        					break;
+        				}
         			}
-        			wclear(partidaPausada);
-        			wrefresh(partidaPausada);
-					delwin(partidaPausada);
+
+        			if (aux != 0)
+        			{
+        				wclear(partidaPausada);
+        				wrefresh(partidaPausada);
+						delwin(partidaPausada);
+        				if(aux == 1)
+        				{
+        					WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+			    			sleepC(2000);
+			    			wclear(partidaGuardada);
+							wrefresh(partidaGuardada);
+							delwin(partidaGuardada);
+			    			guardarPartida(usuarios, player, nave, asteroides, num_ast, balas, num_balas, *segundos, *tiempo, disparosAcertados, disparosConsumidos);
+			    			salidaSinMenu = 1;
+        				}
+        				mostrarPuntuacion(usuarios, player, *tiempo,disparosAcertados);
+			    		choqueAsteroide = 0;
+			        	choqueBala = 0;
+			        	*segundos = 0;
+			        	*tiempo = 0;
+			        	break;
+        			}
+        			
 
         		}
         		else

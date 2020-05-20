@@ -540,17 +540,52 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 	        	if(tecla==112)
 	        	{
 	        		tecla = 0;
+	        		int aux = 0;
         			WINDOW* partidaPausada = this->mostrarPartidaPausada();
         			
         			while (1)
         			{
         				tecla = wgetch(ventana);
-        				if(tecla==112)
+        				if(tecla == 112)
+        				{
+        					wclear(partidaPausada);
+        					wrefresh(partidaPausada);
+							delwin(partidaPausada);
         					break;
+        				}
+        				if(tecla == 103)
+        				{
+        					aux = 1;
+        					break;
+        				}
+        				if(tecla == 115)
+        				{
+        					aux = 2;
+        					break;
+        				}
+        			
         			}
-        			wclear(partidaPausada);
-        			wrefresh(partidaPausada);
-					delwin(partidaPausada);
+
+        			if(aux != 0)
+        			{
+        				if(aux == 1)
+        				{
+        					WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+		        			sleepS(2000);
+		        			wclear(partidaGuardada);
+							wrefresh(partidaGuardada);
+							delwin(partidaGuardada);
+		        			guardarPartida(usuarios, player, nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, *segundos);
+		        			salirSinMenu = 1;
+        				}
+
+        				guardarPuntuacion(usuarios, player, num_ast);
+			        	choque_asteroide = 0;
+			        	choque_vidaExtra = 0;
+			        	*segundos = 0;
+			        	break;
+        			}
+        			
 	        	}
 	        	else
 	        	{
