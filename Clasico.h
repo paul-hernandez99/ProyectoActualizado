@@ -41,8 +41,8 @@ public:
 	void crearAsteroidesHorizontales(Asteroide* asteroides, int* num_ast);
 	void crearAsteroidesVerticales(Asteroide* asteroides, int* num_ast);
 	void inicializarParametrosC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, int* num_balas, int* disparosAcertados, int* disparosConsumidos);
-	void liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, WINDOW* ventana);
-	void reestablecerValoresC(Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos);
+	void liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, WINDOW* ventana, float* segundos, float* tiempo, int* nuevaPartida);
+	void reestablecerValoresC(Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, int* nuevaPartida);
 	void movimientosJugadorC(int tecla, NaveClasico* nave, Bala* balas, int* num_balas);
 };
 

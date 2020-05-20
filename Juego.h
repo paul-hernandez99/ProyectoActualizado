@@ -30,6 +30,10 @@ public:
 	virtual void pintarAsteroideHorizontal(WINDOW* ventana, Asteroide* asteroide) = 0;
 	virtual int choque(WINDOW* ventana, Nave* nave, Asteroide* asteroide) = 0;
 
+	WINDOW* mostrarPartidaGuardada();
+	WINDOW* mostrarInfoPartidaGuardada();
+	int menuPartidaGuardada();
+
 	int getAlto() const;
 	void setAlto(int alto);
 	int getIzquierda() const;

@@ -36,10 +36,10 @@ public:
 	void pintarVidasExtra(WINDOW* ventana, VidaExtra* vidasExtra, int* num_vidasExtra);
 	int choqueVidasExtra(WINDOW* ventana, NaveSupervivencia* nave, VidaExtra* vidasExtra, int* num_vidasExtra, int* vidasExtraConsumidas);
 	void actualizarS(WINDOW* ventana, NaveSupervivencia* nave);
-	void liberarMemoriaS(NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra, WINDOW* ventana);
+	void liberarMemoriaS(NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra, WINDOW* ventana, float* segundos, int* nuevaPartida);
 	void inicializarParametrosS(Asteroide* asteroides,NaveSupervivencia* nave, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra);
 	void movimientosJugadorS(int tecla, NaveSupervivencia* nave);
-	void reestablecerValoresS(Asteroide* asteroides, int* num_ast);
+	void reestablecerValoresS(Asteroide* asteroides, int* num_ast, int* nuevaPartida);
 	void guardarPuntuacion(Usuario* usuarios, int player, int* num_ast);
 };
 

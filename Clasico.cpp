@@ -374,7 +374,7 @@ void Clasico::reanudarPartida(int* objects, NaveClasico* nave, Asteroide* astero
 	delete[] objects;
 }
 
-void Clasico::liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, WINDOW* ventana)
+void Clasico::liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, WINDOW* ventana, float* segundos, float* tiempo, int* nuevaPartida)
 {
 	delete nave;
     delete[] asteroides;
@@ -383,13 +383,16 @@ void Clasico::liberarMemoriaC(NaveClasico* nave, Asteroide* asteroides, int* num
     delete num_balas;
     delete disparosAcertados;
     delete disparosConsumidos;
+    delete segundos;
+    delete tiempo;
+    delete nuevaPartida;
     wclear(ventana);
     wrefresh(ventana);
     delwin(ventana);
     clear();
     refresh();
 }
-void Clasico::reestablecerValoresC(Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos)
+void Clasico::reestablecerValoresC(Asteroide* asteroides, int* num_ast, Bala* balas, int* num_balas, int* disparosAcertados, int* disparosConsumidos, int* nuevaPartida)
 {
 	for(int i=0; i<*num_ast; i++)
 	{
@@ -405,6 +408,8 @@ void Clasico::reestablecerValoresC(Asteroide* asteroides, int* num_ast, Bala* ba
 	*num_balas = 0;
 	*disparosAcertados = 0;
 	*disparosConsumidos = 0;
+
+	*nuevaPartida = 1;
 }
 void Clasico::movimientosJugadorC(int tecla, NaveClasico* nave, Bala* balas, int* num_balas)
 {
@@ -532,14 +537,28 @@ void Clasico::jugar(Usuario* usuarios, int player)
     int choqueBala = 0;
     int tecla;
 
+    int salidaSinMenu = 0;
+    int* nuevaPartida = new int();
+    *nuevaPartida = 1;
+
+    if(usuarios[player].getGuardadoC() == 1)
+	{
+		WINDOW* infoPartidaGuardada = this->mostrarInfoPartidaGuardada();
+
+		if(!this->menuPartidaGuardada())
+		{
+			reanudarPartida(usuarios[player].getObjectsC(), nave, asteroides, num_ast, balas, num_balas, disparosConsumidos, segundos, tiempo, disparosAcertados);
+			*nuevaPartida = 0;
+		}
+		wclear(infoPartidaGuardada);
+		wrefresh(infoPartidaGuardada);
+		delwin(infoPartidaGuardada);
+		delete[] usuarios[player].getObjectsC();
+		usuarios[player].setGuardadoC(0);
+	}
     while(1)
     {
-    	if(usuarios[player].getGuardadoC())
-    	{
-    		reanudarPartida(usuarios[player].getObjectsC(), nave, asteroides, num_ast, balas, num_balas, disparosConsumidos, segundos, tiempo, disparosAcertados);
-    		usuarios[player].setGuardadoC(0);
-    	}
-	    else
+    	if(*nuevaPartida)
 	    	 inicializarParametrosC(nave, asteroides, num_ast, num_balas, disparosAcertados, disparosConsumidos);
 
 	    while(1)
@@ -607,8 +626,13 @@ void Clasico::jugar(Usuario* usuarios, int player)
         	{
         		if(tecla == 103)
         		{
-        			//Mostrar etiqueta de Guardar partida
+        			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+        			sleepC(2000);
+        			wclear(partidaGuardada);
+					wrefresh(partidaGuardada);
+					delwin(partidaGuardada);
         			guardarPartida(usuarios, player, nave, asteroides, num_ast, balas, num_balas, *segundos, *tiempo, disparosAcertados, disparosConsumidos);
+        			salidaSinMenu = 1;
         		}
         		if(nave->getVidas() == 0)
         			mostrarGameOver();
@@ -627,10 +651,10 @@ void Clasico::jugar(Usuario* usuarios, int player)
 	        choqueBala = 0;
 	    }
 	    actualizarC(ventana, nave, disparosAcertados, disparosConsumidos);
-	    if(menuSalida())
+	    if(salidaSinMenu || menuSalida())
     		break;
-    	reestablecerValoresC(asteroides, num_ast, balas, num_balas, disparosAcertados, disparosConsumidos);
+    	reestablecerValoresC(asteroides, num_ast, balas, num_balas, disparosAcertados, disparosConsumidos, nuevaPartida);
     }
-    liberarMemoriaC(nave, asteroides, num_ast, balas, num_balas, disparosAcertados, disparosConsumidos, ventana);
+    liberarMemoriaC(nave, asteroides, num_ast, balas, num_balas, disparosAcertados, disparosConsumidos, ventana, segundos, tiempo, nuevaPartida);
 	endwin();
 }

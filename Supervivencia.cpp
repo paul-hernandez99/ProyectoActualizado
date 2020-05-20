@@ -235,6 +235,7 @@ void Supervivencia::mostrarVidaExtra()
 	wrefresh(vidaExtra);
 	delwin(vidaExtra);
 }
+
 void Supervivencia::nuevaVidaExtra(VidaExtra* vidasExtra, int* num_vidasExtra)
 {
 	if(*num_vidasExtra < MAX_EXTRA)
@@ -274,13 +275,15 @@ void Supervivencia::actualizarS(WINDOW* ventana, NaveSupervivencia* nave)
 	nave->pintarVidas(this->getAnchuraTerminal());
    	box(ventana, 0,0);
 }
-void Supervivencia::liberarMemoriaS(NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra, WINDOW* ventana)
+void Supervivencia::liberarMemoriaS(NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* num_vidasExtra, WINDOW* ventana, float* segundos, int* nuevaPartida)
 {
 	delete nave;
 	delete[] asteroides;
 	delete[] vidasExtra;
 	delete num_ast;
 	delete num_vidasExtra;
+	delete segundos;
+	delete nuevaPartida;
     wclear(ventana);
     wrefresh(ventana);
     delwin(ventana);
@@ -336,7 +339,7 @@ void Supervivencia::movimientosJugadorS(int tecla, NaveSupervivencia* nave)
         	break;
     }
 }
-void Supervivencia::reestablecerValoresS(Asteroide* asteroides, int* num_ast)
+void Supervivencia::reestablecerValoresS(Asteroide* asteroides, int* num_ast, int* nuevaPartida)
 {
 	for(int i=1; i<*num_ast; i++)
 	{
@@ -345,6 +348,7 @@ void Supervivencia::reestablecerValoresS(Asteroide* asteroides, int* num_ast)
 		asteroides[i].setTipo(0);
 	}
 	*num_ast = 0;
+	*nuevaPartida = 1;
 }
 void Supervivencia::guardarPuntuacion(Usuario* usuarios, int player, int* num_ast)
 {
@@ -382,8 +386,6 @@ void Supervivencia::reanudarPartida(int* objects, NaveSupervivencia* nave, Aster
     }
 
 	*segundos = (float)objects[contador];
-
-	delete[] objects;
 }
 
 void Supervivencia::guardarPartida(Usuario* usuarios, int player, NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, int segundos)
@@ -464,14 +466,30 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
     int choque_vidaExtra = 0;
     int tecla;
 
+    int salirSinMenu = 0;
+    int* nuevaPartida = new int();
+    *nuevaPartida = 1;
+
+    if(usuarios[player].getGuardadoS() == 1)
+	{
+		WINDOW* infoPartidaGuardada = this->mostrarInfoPartidaGuardada();
+
+		if(!this->menuPartidaGuardada())
+		{
+			reanudarPartida(usuarios[player].getObjectsS(), nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, segundos);
+			*nuevaPartida = 0;
+		}
+		wclear(infoPartidaGuardada);
+		wrefresh(infoPartidaGuardada);
+		delwin(infoPartidaGuardada);
+		delete[] usuarios[player].getObjectsS();
+		usuarios[player].setGuardadoS(0);
+	}
+
     while(1)
     {
-    	if(usuarios[player].getGuardadoS() == 1)
-    	{
-    		reanudarPartida(usuarios[player].getObjectsS(), nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, segundos);
-    		usuarios[player].setGuardadoS(0);
-    	}
-    	else
+
+    	if(*nuevaPartida)
     	{
 	    	inicializarParametrosS(asteroides, nave, num_ast, vidasExtra, num_vidasExtra);
 	   		mostrarNivel(num_ast);
@@ -521,8 +539,13 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 	        {
 	        	if(tecla == 103)
         		{
-        			//Mostrar etiqueta de Guardar partida
+        			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+        			sleepS(2000);
+        			wclear(partidaGuardada);
+					wrefresh(partidaGuardada);
+					delwin(partidaGuardada);
         			guardarPartida(usuarios, player, nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, *segundos);
+        			salirSinMenu = 1;
         		}
         		if(nave->getVidas() == 0)
         			mostrarGameOver();
@@ -539,12 +562,12 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 	        choque_vidaExtra = 0;
 	    }
 	    actualizarS(ventana,nave);
-	    if(menuSalida())
+	    if(salirSinMenu || menuSalida())
     		break;
     	wrefresh(ventana);
-    	reestablecerValoresS(asteroides, num_ast);
+    	reestablecerValoresS(asteroides, num_ast, nuevaPartida);
     }
 
-    liberarMemoriaS(nave, asteroides, num_ast, vidasExtra, num_vidasExtra, ventana);
+    liberarMemoriaS(nave, asteroides, num_ast, vidasExtra, num_vidasExtra, ventana, segundos, nuevaPartida);
 	endwin();
 }
