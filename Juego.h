@@ -22,7 +22,6 @@ public:
 	virtual int menuSalida() = 0;
 	virtual WINDOW* mostrarInfo() = 0;
 	virtual WINDOW* mostrarJuego() = 0;
-	virtual void tamanyoTerminal() = 0;
 	 //virtual void jugar(Usuario* usuarios, int player);
 	virtual void nuevoAsteroideVertical(Asteroide* asteroide) = 0;
 	virtual void nuevoAsteroideHorizontal(Asteroide* asteroide) = 0;

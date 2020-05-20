@@ -118,14 +118,17 @@ int Supervivencia::menuSalida()
 
 WINDOW* Supervivencia::mostrarInfo()
 {
-	WINDOW* info = newwin(this->getAlturaTerminal()/3.7,this->getAnchuraTerminal()/1.7,this->getAlturaTerminal()/2-this->getAlturaTerminal()/7.4,this->getAnchuraTerminal()/2 - this->getAnchuraTerminal()/3.4);
+	WINDOW* info = newwin(this->getAlturaTerminal()/3,this->getAnchuraTerminal()/1.7,this->getAlturaTerminal()/2-this->getAlturaTerminal()/7.4,this->getAnchuraTerminal()/2 - this->getAnchuraTerminal()/3.4);
 	refresh();
 	box(info,0,0);
 	mvwprintw(info,1,1,"El juego consiste en que los asteroides (O) no choquen con la nave.");
 	mvwprintw(info,2,1,"Para mover la nave usa las fleclas");;
 	mvwprintw(info,3,1,"Hay 15 niveles distintos");
 	mvwprintw(info,4,1,"Existen vidas Extras (X)");
-	mvwprintw(info,6,1,"El juego esta a punto de empezar...");
+	mvwprintw(info,5,1,"Para guardar la partida pulsa g.");
+	mvwprintw(info,6,1,"Para pausar la partida pulsa p.");
+	mvwprintw(info,7,1,"Para salir pulsa s.");
+	mvwprintw(info,8,1,"El juego esta a punto de empezar...");
 	wrefresh(info);
 	return info;
 }
@@ -142,12 +145,6 @@ WINDOW* Supervivencia::mostrarJuego()
     wbkgd(ventana, COLOR_PAIR(1));
     return ventana;
 }
-
-void Supervivencia::tamanyoTerminal()
-{
-	
-}
-
 void Supervivencia::nuevoAsteroideVertical(Asteroide* asteroide)
 {
 	asteroide->setX((rand()%(this->getDerecha()-this->getIzquierda()+1)) + this->getIzquierda());

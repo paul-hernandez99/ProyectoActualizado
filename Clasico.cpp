@@ -122,14 +122,18 @@ int Clasico::menuSalida()
 }
 WINDOW* Clasico::mostrarInfo()
 {
-	WINDOW* info = newwin(this->getAlturaTerminal()/4,this->getAnchuraTerminal()/1.7,this->getAlturaTerminal()/2.5, this->getAnchuraTerminal()/4);
+	WINDOW* info = newwin(this->getAlturaTerminal()/2.7,this->getAnchuraTerminal()/1.7,this->getAlturaTerminal()/2.5, this->getAnchuraTerminal()/4);
 	refresh();
 	box(info,0,0);
 	mvwprintw(info,1,1,"El juego consiste en que los asteroides no choquen con la nave.");
-	mvwprintw(info,2,1,"Para mover la nave usa las flechas, y para diparar el espacio.");;
+	mvwprintw(info,2,1,"Para mover la nave usa las flechas, y para diparar el espacio.");
 	mvwprintw(info,3,1,"Tu puntuacion dependera de la duracion de la partida y de los");
-	mvwprintw(info,4,1,"asteroides abatidos. Buena suerte!");
-	mvwprintw(info,5,1,"El juego esta a punto de empezar...");
+	mvwprintw(info,4,1,"asteroides abatidos.");
+	mvwprintw(info,5,1,"Para guardar la partida pulsa g.");
+	mvwprintw(info,6,1,"Para pausar la partida pulsa p.");
+	mvwprintw(info,7,1,"Para salir pulsa s.");
+	mvwprintw(info,8,1,"El juego esta a punto de empezar...");
+	mvwprintw(info,9,1,"Buena suerte!");
 	wrefresh(info);
 	return info;
 }
@@ -145,11 +149,6 @@ WINDOW* Clasico::mostrarJuego()
     wbkgd(ventana, COLOR_PAIR(1));
     return ventana;
 }
-void Clasico::tamanyoTerminal()
-{
-
-}
-
 void Clasico::nuevoAsteroideVertical(Asteroide* asteroide)
 {
 	asteroide->setX((rand()%(this->getDerecha()-this->getIzquierda()+1)) + this->getIzquierda());

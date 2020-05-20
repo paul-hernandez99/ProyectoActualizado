@@ -25,8 +25,10 @@ WINDOW* Juego::mostrarPartidaPausada()
     WINDOW* partidaPausada = newwin(6, 40,this->alturaTerminal/2-1.5,this->anchuraTerminal/2-20);
     refresh();
     box(partidaPausada,0,0);
-    mvwprintw(partidaPausada,2,10, "PARTIDA PAUSADA");
-    mvwprintw(partidaPausada,3,7, "Pulse p para continuar...");
+    mvwprintw(partidaPausada,1,10, "PARTIDA PAUSADA");
+    mvwprintw(partidaPausada,2,7, "Pulse p para continuar...");
+    mvwprintw(partidaPausada,3,7, "Pulse g para guardar...");
+    mvwprintw(partidaPausada,4,7, "Pulse s para salir...");
     wrefresh(partidaPausada);
     return partidaPausada;
 }
