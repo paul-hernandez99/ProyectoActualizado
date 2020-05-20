@@ -25,13 +25,13 @@ void RankingSupervivencia::mostrarRanking (Usuario* usuarios, int size)
 	}
 
 	noecho();
-	move((getMAX_Y()/2)-(size+2)/2-1,getMAX_X()/4);
+	move(this->getMAX_Y()/2-7, this->getMAX_X()/4+1);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_RED);
     attron(COLOR_PAIR(1));
     printw("  RANKING SUPERVIVENCIA  ");
     attroff(COLOR_PAIR(1));
-    WINDOW* rankingSupervivencia = newwin(size+2,getMAX_X()/2,(getMAX_Y()/2)-(size+2)/2,getMAX_X()/4);
+    WINDOW* rankingSupervivencia = newwin(12, this->getMAX_X()/2, this->getMAX_Y()/2-6, this->getMAX_X()/4);
     box(rankingSupervivencia,0,0);
     refresh();
     wrefresh(rankingSupervivencia);
@@ -45,7 +45,7 @@ void RankingSupervivencia::mostrarRanking (Usuario* usuarios, int size)
 
     wrefresh(rankingSupervivencia);
 
-    move((getMAX_Y()/2)+(size+2)/2+1,getMAX_X()/4);
+     move(this->getMAX_Y()/2+6, this->getMAX_X()/4+1);
     attron(A_REVERSE);
     printw("pulsa enter para volver...");
     attroff(A_REVERSE);

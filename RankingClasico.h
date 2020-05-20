@@ -6,7 +6,7 @@
 class RankingClasico : public Ranking
 {
 	public:
-		RankingClasico () : Ranking() {}
+		RankingClasico(){}
 		virtual ~RankingClasico(){}
 		virtual void mostrarRanking (Usuario* usuarios, int size);
 		void liberarMemoriaRankingClasico (Usuario* arrayusuarios, Usuario* aux, WINDOW* rankingClasico);

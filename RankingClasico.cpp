@@ -1,16 +1,16 @@
 #include "RankingClasico.h"
+#include <iostream>
+using namespace std;
 
-void RankingClasico::mostrarRanking (Usuario* usuarios, int size)
+void RankingClasico::mostrarRanking(Usuario* usuarios, int size)
 {
 	Usuario* arrayUsuarios = new Usuario [size];
-	//Usuario* arrayUsuarios = (Usuario*) malloc (size * sizeof(Usuario));
     for (int i=0; i<size; i++)
     {
         arrayUsuarios[i] = usuarios[i];
     }
 
     Usuario* aux = new Usuario ();
-	//Usuario* aux = (Usuario*) malloc (sizeof(Usuario));
 	for (int i=0; i<size-1; i++)
 	{
 		for (int j=0; j<size-i-1; j++)
@@ -23,29 +23,28 @@ void RankingClasico::mostrarRanking (Usuario* usuarios, int size)
 			}
 		}
 	}
-
-	noecho();
-	move((getMAX_Y()/2)-(size+2)/2-1, getMAX_X()/4);
+	curs_set(0);
+	move(this->getMAX_Y()/2-7, this->getMAX_X()/4+1);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_RED);
     attron(COLOR_PAIR(1));
     printw("  RANKING CLASICO  ");
     attroff(COLOR_PAIR(1));
-    WINDOW* rankingClasico = newwin(size+2,getMAX_X()/2,(getMAX_Y()/2)-(size+2)/2,getMAX_X()/4);
+    WINDOW* rankingClasico = newwin(12, this->getMAX_X()/2, this->getMAX_Y()/2-6, this->getMAX_X()/4);
+  	refresh();
     box(rankingClasico,0,0);
-    refresh();
     wrefresh(rankingClasico);
 
     for (int i=0; i<size && i<10; i++)
     {
     	mvwprintw(rankingClasico, 1+i, 1, "%d.- %s", (i+1), arrayUsuarios[i].getNickname());
-    	mvwprintw(rankingClasico, 1+i, getMAX_X()/4, "%.2f", arrayUsuarios[i].getPuntuaciones()[0]);
-    	mvwprintw(rankingClasico, 1+i, 3*getMAX_X()/8, "puntos");
+    	mvwprintw(rankingClasico, 1+i, this->getMAX_X()/4, "%.2f", arrayUsuarios[i].getPuntuaciones()[0]);
+    	mvwprintw(rankingClasico, 1+i, 3*this->getMAX_X()/8, "puntos");
     }
 
     wrefresh(rankingClasico);
 
-    move((getMAX_Y()/2)+(size+2)/2+1,getMAX_X()/4);
+    move(this->getMAX_Y()/2+6, this->getMAX_X()/4+1);
     attron(A_REVERSE);
     printw("pulsa enter para volver...");
     attroff(A_REVERSE);

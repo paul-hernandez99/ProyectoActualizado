@@ -5,5 +5,5 @@ int Ranking::MAX_Y = 0;
 
 Ranking::Ranking()
 {
-	getmaxyx(stdscr, MAX_X, MAX_Y);
+	getmaxyx(stdscr, MAX_Y, MAX_X);
 }
