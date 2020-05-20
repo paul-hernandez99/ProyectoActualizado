@@ -100,6 +100,35 @@ Usuario& Usuario::operator=(const Usuario &a)
     this->puntuaciones[0] = a.puntuaciones[0];
     this->puntuaciones[1] = a.puntuaciones[1];
 
+    this->guardadoS = a.guardadoS;
+    this->guardadoC = a.guardadoC;
+
+    this->setObjectsC();
+    if (this->guardadoC == 1)
+    {
+	    
+	    int i=0;
+	    while (a.objectsC[i] != -1)
+	    {
+	    	this->objectsC[i] = a.objectsC[i];
+	    	i++;
+	    }
+	    this->objectsC[i] = -1;
+	}
+
+	this->setObjectsS();
+	if (this->guardadoS == 1)
+	{
+	    
+	    int j=0;
+	    while (a.objectsS[j] != -1)
+	    {
+	    	this->objectsS[j] = a.objectsS[j];
+	    	j++;
+	    }
+	    this->objectsS[j] = -1;
+	}
+
     return *this;
 }
 

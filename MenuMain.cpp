@@ -80,20 +80,19 @@ void MenuMain::menuPrincipal()
                             break;
                         }
                         case 2:
-                        {/*
+                        {
                             RankingClasico rc;
                             rc.mostrarRanking(usuarios, *size);
-                            break;*/
+                            break;
                         }
                         case 3:
-                        {/*
+                        {
                             RankingSupervivencia rs;
                             rs.mostrarRanking(usuarios, *size);
-                            break;*/
+                            break;
                         }
                         default:
                             break;
-                    
                     }
                     if(selected == 4) break;
                 }

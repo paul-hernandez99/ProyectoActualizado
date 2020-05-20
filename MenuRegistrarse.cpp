@@ -31,8 +31,8 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
     attroff(A_REVERSE);
     
     WINDOW* registro = newwin(5,getMAX_X()/2,(getMAX_Y()/2)-2.5, getMAX_X()/4);
-    refresh();
     box(registro,0,0);
+    refresh();
     
 
     start_color();
@@ -124,6 +124,7 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
         refresh();
         usuariosActualizados = new Usuario [size+1];
 
+        
         for (int i=0; i<size; i++)
         {
             usuariosActualizados[i] = usuarios[i];
@@ -137,12 +138,18 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
         initializeNull[0] = 0.0f;
         initializeNull[1] = 0.0f;
         usuariosActualizados[size].setPuntuaciones(initializeNull);
+
+        usuariosActualizados[size].setGuardadoC(0);
+        usuariosActualizados[size].setGuardadoS(0);
+
+        usuariosActualizados[size].setObjectsC();
+        usuariosActualizados[size].setObjectsS();
+
         
         size++;
 
         Usuario user;
         user.escribirUsuarios(usuariosActualizados, size);
-
         sleeppp(1000);
 
         liberarMemoriaMenuRegistrarse(registro, usuariosActualizados, size, userIntroduced, passIntroduced, passConfiIntroduced, initializeNull);
