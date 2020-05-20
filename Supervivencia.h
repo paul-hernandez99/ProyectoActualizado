@@ -21,7 +21,7 @@ public:
 	virtual int menuSalida();
 	virtual WINDOW* mostrarInfo();
 	virtual WINDOW* mostrarJuego();
-	void jugar(Usuario* usuarios, int player);
+	virtual void jugar(Usuario* usuarios, int player);
 	virtual void nuevoAsteroideVertical(Asteroide* asteroide);
 	virtual void nuevoAsteroideHorizontal(Asteroide* asteroide);
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide);

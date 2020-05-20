@@ -433,7 +433,7 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 {
 	initscr();
 	curs_set(0);
-	tamanyoTerminal();
+	//tamanyoTerminal();
 	WINDOW* info = mostrarInfo();
 
 	sleepS(5000);

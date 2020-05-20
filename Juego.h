@@ -3,6 +3,7 @@
 #include <curses.h>
 #include "Asteroide.h"
 #include "Nave.h"
+#include "Usuario.h"
 
 class Juego
 {
@@ -22,7 +23,7 @@ public:
 	virtual int menuSalida() = 0;
 	virtual WINDOW* mostrarInfo() = 0;
 	virtual WINDOW* mostrarJuego() = 0;
-	 //virtual void jugar(Usuario* usuarios, int player);
+	virtual void jugar(Usuario* usuarios, int player) = 0;
 	virtual void nuevoAsteroideVertical(Asteroide* asteroide) = 0;
 	virtual void nuevoAsteroideHorizontal(Asteroide* asteroide) = 0;
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide) = 0;
