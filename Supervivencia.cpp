@@ -568,6 +568,13 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 
         			if(aux != 0)
         			{
+        				wclear(partidaPausada);
+        				wrefresh(partidaPausada);
+						delwin(partidaPausada);
+
+						actualizarS(ventana,nave);
+        				wrefresh(ventana);
+
         				if(aux == 1)
         				{
         					WINDOW* partidaGuardada = this->mostrarPartidaGuardada();

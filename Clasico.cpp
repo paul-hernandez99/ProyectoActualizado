@@ -657,6 +657,9 @@ void Clasico::jugar(Usuario* usuarios, int player)
         				wclear(partidaPausada);
         				wrefresh(partidaPausada);
 						delwin(partidaPausada);
+
+						actualizarC(ventana, nave, disparosAcertados, disparosConsumidos);
+						wrefresh(ventana);
         				if(aux == 1)
         				{
         					WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
