@@ -622,26 +622,46 @@ void Clasico::jugar(Usuario* usuarios, int player)
 	    	tecla = wgetch(ventana);
 	    	movimientosJugadorC(tecla, nave, balas, num_balas);
 
-	    	if(nave->getVidas() == 0 || tecla==115 || tecla==103)
-        	{
-        		if(tecla == 103)
+	    	if(nave->getVidas() == 0 || tecla==115 || tecla==103 || tecla == 112)
+        	{	
+        		if(tecla == 112)
         		{
-        			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
-        			sleepC(2000);
-        			wclear(partidaGuardada);
-					wrefresh(partidaGuardada);
-					delwin(partidaGuardada);
-        			guardarPartida(usuarios, player, nave, asteroides, num_ast, balas, num_balas, *segundos, *tiempo, disparosAcertados, disparosConsumidos);
-        			salidaSinMenu = 1;
+        			tecla = 0;
+        			WINDOW* partidaPausada = this->mostrarPartidaPausada();
+        			
+        			while (1)
+        			{
+        				tecla = wgetch(ventana);
+        				if(tecla==112)
+        					break;
+        			}
+        			wclear(partidaPausada);
+        			wrefresh(partidaPausada);
+					delwin(partidaPausada);
+
         		}
-        		if(nave->getVidas() == 0)
-        			mostrarGameOver();
-        		mostrarPuntuacion(usuarios, player, *tiempo,disparosAcertados);
-        		choqueAsteroide = 0;
-	        	choqueBala = 0;
-	        	*segundos = 0;
-	        	*tiempo = 0;
-        		break;
+        		else
+        		{
+        			if(tecla == 103)
+		    		{
+		    			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+		    			sleepC(2000);
+		    			wclear(partidaGuardada);
+						wrefresh(partidaGuardada);
+						delwin(partidaGuardada);
+		    			guardarPartida(usuarios, player, nave, asteroides, num_ast, balas, num_balas, *segundos, *tiempo, disparosAcertados, disparosConsumidos);
+		    			salidaSinMenu = 1;
+		    		}
+		    		if(nave->getVidas() == 0)
+		    			mostrarGameOver();
+		    		mostrarPuntuacion(usuarios, player, *tiempo,disparosAcertados);
+		    		choqueAsteroide = 0;
+		        	choqueBala = 0;
+		        	*segundos = 0;
+		        	*tiempo = 0;
+		    		break;
+        		}
+        		
         	}
 	    	
 	        sleepC(50);

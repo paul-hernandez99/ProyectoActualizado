@@ -32,6 +32,7 @@ public:
 
 	WINDOW* mostrarPartidaGuardada();
 	WINDOW* mostrarInfoPartidaGuardada();
+	WINDOW* mostrarPartidaPausada();
 	int menuPartidaGuardada();
 
 	int getAlto() const;

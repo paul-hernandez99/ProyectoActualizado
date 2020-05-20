@@ -535,25 +535,44 @@ void Supervivencia::jugar(Usuario* usuarios, int player)
 	        tecla = wgetch(ventana);
 	        movimientosJugadorS(tecla, nave);
 
-	        if(nave->getVidas() == 0 || tecla==115 || tecla==103)
+	        if(nave->getVidas() == 0 || tecla==115 || tecla==103 || tecla==112)
 	        {
-	        	if(tecla == 103)
-        		{
-        			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
-        			sleepS(2000);
-        			wclear(partidaGuardada);
-					wrefresh(partidaGuardada);
-					delwin(partidaGuardada);
-        			guardarPartida(usuarios, player, nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, *segundos);
-        			salirSinMenu = 1;
-        		}
-        		if(nave->getVidas() == 0)
-        			mostrarGameOver();
-	        	guardarPuntuacion(usuarios, player, num_ast);
-	        	choque_asteroide = 0;
-	        	choque_vidaExtra = 0;
-	        	*segundos = 0;
-	        	break;
+	        	if(tecla==112)
+	        	{
+	        		tecla = 0;
+        			WINDOW* partidaPausada = this->mostrarPartidaPausada();
+        			
+        			while (1)
+        			{
+        				tecla = wgetch(ventana);
+        				if(tecla==112)
+        					break;
+        			}
+        			wclear(partidaPausada);
+        			wrefresh(partidaPausada);
+					delwin(partidaPausada);
+	        	}
+	        	else
+	        	{
+	        		if(tecla == 103)
+	        		{
+	        			WINDOW* partidaGuardada = this->mostrarPartidaGuardada();
+	        			sleepS(2000);
+	        			wclear(partidaGuardada);
+						wrefresh(partidaGuardada);
+						delwin(partidaGuardada);
+	        			guardarPartida(usuarios, player, nave, asteroides, num_ast, vidasExtra, vidasExtraConsumidas, num_vidasExtra, *segundos);
+	        			salirSinMenu = 1;
+	        		}
+	        		if(nave->getVidas() == 0)
+	        			mostrarGameOver();
+		        	guardarPuntuacion(usuarios, player, num_ast);
+		        	choque_asteroide = 0;
+		        	choque_vidaExtra = 0;
+		        	*segundos = 0;
+		        	break;
+	        	}
+	        	
 	        }	
 
 	        sleepS(35);

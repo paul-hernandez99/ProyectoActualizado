@@ -18,6 +18,19 @@ WINDOW* Juego::mostrarPartidaGuardada()
 	return partidaGuardada;
 }
 
+WINDOW* Juego::mostrarPartidaPausada()
+{
+    int alturaVentanaS = this->BAJO+3;
+    int anchuraVentanaS = this->DERECHA+6;
+    WINDOW* partidaPausada = newwin(6, 40,this->alturaTerminal/2-1.5,this->anchuraTerminal/2-20);
+    refresh();
+    box(partidaPausada,0,0);
+    mvwprintw(partidaPausada,2,10, "PARTIDA PAUSADA");
+    mvwprintw(partidaPausada,3,7, "Pulse p para continuar...");
+    wrefresh(partidaPausada);
+    return partidaPausada;
+}
+
 WINDOW* Juego::mostrarInfoPartidaGuardada()
 {
 	int alturaVentanaS = this->BAJO+3;
