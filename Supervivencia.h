@@ -12,21 +12,19 @@ class Supervivencia : public Juego
 	static const int MAX_AST;
 	static const int MAX_EXTRA;
 	static const int MAX_LENGHT;
-public:
-	Supervivencia();
-	virtual ~Supervivencia(){}
+
 	virtual void pintarAsteroides(WINDOW* ventana, Asteroide* asteroides, int* num_ast);
 	virtual void subirNivel(Asteroide* asteroides, int* num_ast);
 	virtual void mostrarGameOver();
 	virtual int menuSalida();
 	virtual WINDOW* mostrarInfo();
 	virtual WINDOW* mostrarJuego();
-	virtual void jugar(Usuario* usuarios, int player);
 	virtual void nuevoAsteroideVertical(Asteroide* asteroide);
 	virtual void nuevoAsteroideHorizontal(Asteroide* asteroide);
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide);
 	virtual void pintarAsteroideHorizontal(WINDOW* ventana, Asteroide* asteroide);
 	virtual int choque(WINDOW* ventana, Nave* nave, Asteroide* asteroide);
+
 	void reanudarPartida(int* objets, NaveSupervivencia* nave, Asteroide* asteroide, int*num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, float* segundos);
 	void guardarPartida(Usuario* usuarios, int player, NaveSupervivencia* nave, Asteroide* asteroides, int* num_ast, VidaExtra* vidasExtra, int* vidasExtraConsumidas, int* num_vidasExtra, int segundos);
 	void mostrarNivel(int* num_ast);
@@ -40,6 +38,12 @@ public:
 	void movimientosJugadorS(int tecla, NaveSupervivencia* nave);
 	void reestablecerValoresS(Asteroide* asteroides, int* num_ast, int* nuevaPartida);
 	void guardarPuntuacion(Usuario* usuarios, int player, int* num_ast);
+public:
+	Supervivencia();
+	virtual ~Supervivencia(){}
+
+	virtual void jugar(Usuario* usuarios, int player);
+
 };
 
 #endif

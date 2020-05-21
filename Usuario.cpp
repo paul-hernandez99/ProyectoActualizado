@@ -86,9 +86,6 @@ void Usuario::setObjectsC()
 	this->objectsC = new int[170];
 }
 
-
-
-
 Usuario& Usuario::operator=(const Usuario &a)
 {
 	this->nickname = new char[strlen(a.nickname)+1];

@@ -14,16 +14,14 @@ class Juego
 
 	int alturaTerminal;
 	int anchuraTerminal;
-public:
-	Juego();
-	virtual ~Juego(){}
-	virtual void pintarAsteroides(WINDOW* ventana, Asteroide* asteroides, int* num_ast) = 0;
+
+protected:
+
 	virtual void subirNivel(Asteroide* asteroides, int* num_ast) = 0;
 	virtual void mostrarGameOver() = 0;
 	virtual int menuSalida() = 0;
 	virtual WINDOW* mostrarInfo() = 0;
 	virtual WINDOW* mostrarJuego() = 0;
-	virtual void jugar(Usuario* usuarios, int player) = 0;
 	virtual void nuevoAsteroideVertical(Asteroide* asteroide) = 0;
 	virtual void nuevoAsteroideHorizontal(Asteroide* asteroide) = 0;
 	virtual void pintarAsteroideVertical(WINDOW* ventana, Asteroide* asteroide) = 0;
@@ -34,6 +32,12 @@ public:
 	WINDOW* mostrarInfoPartidaGuardada();
 	WINDOW* mostrarPartidaPausada();
 	int menuPartidaGuardada();
+
+public:
+	Juego();
+	virtual ~Juego(){}
+
+	virtual void jugar(Usuario* usuarios, int player) = 0;
 
 	int getAlto() const;
 	void setAlto(int alto);
