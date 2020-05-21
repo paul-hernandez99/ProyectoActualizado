@@ -11,6 +11,7 @@
 #include "Supervivencia.h"
 #include "RankingSupervivencia.h"
 #include "RankingClasico.h"
+#include "LecturaEscrituraFichero.h"
 
 class MenuMain : public Menu
 {

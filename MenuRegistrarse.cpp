@@ -148,8 +148,8 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
         
         size++;
 
-        Usuario user;
-        user.escribirUsuarios(usuariosActualizados, size);
+        LecturaEscrituraFichero le;
+        le.escribirUsuarios(usuariosActualizados, size);
         sleeppp(1000);
 
         liberarMemoriaMenuRegistrarse(registro, usuariosActualizados, size, userIntroduced, passIntroduced, passConfiIntroduced, initializeNull);

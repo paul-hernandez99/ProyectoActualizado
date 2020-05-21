@@ -38,8 +38,10 @@ class Usuario
 		int* getObjectsS() const;
 		void setObjectsS();
 
+
 		int* getObjectsC() const;
 		void setObjectsC();
+
 
 		Usuario* leerUsuarios(FILE *file, int *size);
 		void escribirUsuarios(Usuario *usuarios, int size);

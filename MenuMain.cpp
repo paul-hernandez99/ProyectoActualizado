@@ -2,6 +2,7 @@
 #include "Usuario.h"
 #include "Menu.h"
 
+
 #include <stdio.h>
 #include <curses.h>
 #include <iostream>
@@ -41,8 +42,8 @@ void MenuMain::menuPrincipal()
 
     int* size = new int();
 
-    Usuario user;
-    Usuario* usuarios = user.leerUsuarios(file, size);
+    LecturaEscrituraFichero lef;
+    Usuario* usuarios = lef.leerUsuarios(file, size);
     
     int player;
     int opcion;
@@ -69,14 +70,14 @@ void MenuMain::menuPrincipal()
                         {
                             Clasico classic;
                             classic.jugar(usuarios, player);
-                            user.escribirUsuarios(usuarios, *size);
+                            lef.escribirUsuarios(usuarios, *size);
                             break;
                         }
                         case 1:
                         {
                             Supervivencia supervi;
                             supervi.jugar(usuarios, player);
-                            user.escribirUsuarios(usuarios, *size);
+                            lef.escribirUsuarios(usuarios, *size);
                             break;
                         }
                         case 2:
