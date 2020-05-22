@@ -110,7 +110,14 @@ void MenuRegistrarse::menuRegistrarse (Usuario *usuarios, int size)
     char *passConfiIntroduced = new char [strlen(aux)+1];
     sscanf(aux, "%s", passConfiIntroduced);
 
-    if (strcmp(passIntroduced, passConfiIntroduced) != 0)
+    if (strcmp(userIntroduced, passIntroduced) == 0)
+    {
+    	move((getMAX_Y()/2)+3.5, getMAX_X()/4);
+        wprintw(stdscr, "NICKNAME AND PASSWORD CANNOT BE THE SAME");
+        menuRegistrarse(usuarios, size);
+    }
+
+    else if (strcmp(passIntroduced, passConfiIntroduced) != 0)
     {
         move((getMAX_Y()/2)+3.5, getMAX_X()/4);
         wprintw(stdscr, "PASSWORDS ARE DIFFERENT! TRY AGAIN");
